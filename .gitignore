@@ -1,6 +1,6 @@
-main.tf
+userkey.tf
 /.terraform
-terraform-aws.pub
+id_rsa.pub
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup

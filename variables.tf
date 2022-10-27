@@ -16,3 +16,7 @@ variable "tipo_instancia" {
   default = "t2.micro"
 
 }
+
+variable "ip_internet" {
+  default = "0.0.0.0/0"
+}
