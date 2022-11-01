@@ -9,22 +9,29 @@ resource "aws_instance" "name_of_resource_tf" {
 
   vpc_security_group_ids = [aws_security_group.sg_acesso_ssh_publico.id, aws_security_group.sg_acesso_web.id]
 
-  user_data = <<-EOF
+}
+
+
+
+resource "aws_instance" "ec2_ansible" {
+  count         = 1
+  ami           = var.ami
+  instance_type = var.tipo_instancia
+  key_name      = "${var.usuario}-terraform-aws"
+  tags = {
+    "Name" = "${var.usuario}-ec2-ansible-${count.index}"
+  }
+
+  vpc_security_group_ids = [aws_security_group.sg_acesso_ssh_publico.id, aws_security_group.sg_acesso_web.id]
+
+ user_data = <<-EOF
     #!/bin/bash
     sudo apt update
-    sudo apt install apache2 -y 
-    sudo apt-get install -y \
-    ca-certificates -y \
-    curl -y \
-    gnupg -y \
-    lsb-release -y
-    sudo mkdir -p /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    echo \
-    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    sudo apt-get update
-    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+    sudo apt install software-properties-common -y
+    sudo add-apt-repository --yes --update ppa:ansible/ansible -y
+    sudo apt-get install ansible -y
   EOF
 
 }
+
+
