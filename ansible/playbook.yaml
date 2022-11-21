@@ -3,58 +3,56 @@
   tasks: # aqui começa lista de tarefas 
   - name: alterando nome dos hosts 
     hostname:
-      name: "{{ new_hostname }}"
-        
+      name: '{{ new_hostname }}'
+
   - name: instalar dependencias do Docker
-    apt:
-      name: "{{ itens }}"
+    apt: 
+      name: "{{item}}"
       state: present
       update_cache: yes
     loop:
-      - apt-transport-https
-      - ca-certificates
+      - apt-transport-https #0
+      - ca-certificates #1
       - curl
       - gnupg-agent
-      - software-properties-common
-        
-  - name: adicioanr chave gpg docker
-    apt_key:
+      - software-properties-common    
+
+  - name: adicionar chave gpg docker
+    apt_key: 
       url: https://download.docker.com/linux/ubuntu/gpg
       state: present
-        
+
   - name: adicionar repo do docker
     apt_repository:
-      url: deb https://dowload.docker.com/linux/ubuntu bionic stable
+      repo: deb https://download.docker.com/linux/ubuntu bionic stable
       state: present
-        
-  - name: instalar docker
+    
+  - name: instalar o docker
     apt:
-      name: "{ {itens} }"
-      state: latest 
+      name: "{{item}}"
+      state: latest
       update_cache: yes
-    loop:
+    loop: 
       - docker-ce
       - docker-ce-cli
       - containerd.io
       - docker-compose
-          
-  - name: instalar python 
-      apt:
-        name: "{ {item} }"
-        state: present
-        update_cache: yes
-      loop:
-        - pyhton3
-        - pip
-            
 
-  - name: Instalar plugin Ansible para gerir docker
+  - name: instalar python pq o ansible precisa para gerir o docker
+    apt:
+      name: "{{item}}"
+      state: present
+      update_cache: yes
+    loop:
+      - python3
+      - pip
+  
+  - name: Instalar plugin do Ansible para gerir o docker
     pip:
       name: docker
 
-
-  handlers:
+  handlers: 
     - name: reiniciar docker
-      service:
+      service: 
         name: docker
         state: restarted
