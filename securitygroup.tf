@@ -37,15 +37,3 @@ resource "aws_security_group" "sg_acesso_web" {
   
 }
 
-resource "aws_security_group" "sg_acesso_nginx" {
-  ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = [var.ip_internet]
-  }
-  tags = {
-    "Name" = "${var.usuario}-sg_acesso_ssh_publico"
-  }
-
-}

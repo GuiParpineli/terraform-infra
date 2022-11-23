@@ -7,7 +7,7 @@ resource "aws_instance" "name_of_resource_tf" {
     "Name" = "${var.usuario}-ec2-${count.index}"
   }
 
-  vpc_security_group_ids = [aws_security_group.sg_acesso_ssh_publico.id, aws_security_group.sg_acesso_web.id, aws_security_group.sg_acesso_nginx.id]
+  vpc_security_group_ids = [aws_security_group.sg_acesso_ssh_publico.id, aws_security_group.sg_acesso_web.id]
 
 }
 
