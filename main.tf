@@ -1,7 +1,5 @@
 provider "aws" {
   region     = var.regiao
-  access_key = var.access_key
-  secret_key = var.secrety_key
 }
 
 # terraform init - baixar os modulos do terraform baseado nos seus arquivos
